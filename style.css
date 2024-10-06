@@ -125,6 +125,9 @@ th {
 th.time-slot, td.time-slot {
     width: 70px; /* Adjust as needed */
 }
+th.aa {
+    font-size: 1em;
+}
 
 .time-slot {
     font-weight: bold;
