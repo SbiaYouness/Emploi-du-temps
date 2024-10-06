@@ -228,10 +228,14 @@ th.time-slot, td.time-slot {
         border-radius: 0;
     }
 
-
+    th {
+        font-size: 0.75em;
+    }
+    td {
+        font-size: 1em;
+    }
     th, td {
         padding: 8px 4px;
-        font-size: 1em;
         height: auto;
         min-width: 80px; /* Keep a reasonable minimum width for small screens */
     }
