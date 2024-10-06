@@ -17,7 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 footer {
@@ -25,12 +25,19 @@ footer {
     bottom: 0;
     width: 100%;
     background-color: #f1f1f1; /* Subtle background color */
-    text-align: center;
-    padding: 10px 0;
+    display: flex;
+    justify-content: center; /* Space between logo and other content */
+    align-items: center;
+    padding: 5px 10px; /* Adjust padding as needed */
     font-size: 14px;
     color: #555; /* Subtle text color */
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
 }
+
+.footer-logo {
+    height: 17px; /* Adjust the height as needed */
+}
+
 
 .container {
     max-width: 1000px;
