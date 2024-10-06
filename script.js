@@ -2,10 +2,10 @@ const timetableData = [
     {
         day: "Lundi",
         slots: [
-            { course: "AGL C# (+2)", instructor: "Hachmoud (4h)", className: "color-1", earlyStart: true },
+            { course: "AGL C# (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyStart: true },
             { course: "AGL C# (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyFinish: true },
-            { course: "Méthodes gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" },
-            { course: "Méthodes gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" }
+            { course: "Gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" },
+            { course: "Gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" }
         ]
     },
     {
@@ -22,8 +22,8 @@ const timetableData = [
         slots: [
             { course: " ", instructor: " ", className: "color-empty" },
             { course: "OSI & TCP/IP (+2)", instructor: "Khartoch (4H)", className: "color-3" },
-            { course: "TP Program. Java (+2)", instructor: "Benslimane (4H) F14", className: "color-4" },
-            { course: "TP Program. Java (+2)", instructor: "Benslimane (4H) F14", className: "color-4" }
+            { course: "Program. Java (+2)", instructor: "Benslimane (4H) D12", className: "color-4" },
+            { course: "Program. Java (+2)", instructor: "Benslimane (4H) D12", className: "color-4" }
         ]
     },
     {
@@ -38,9 +38,9 @@ const timetableData = [
     {
         day: "Vendredi",
         slots: [
-            { course: "AGL C# (+2)", instructor: "Hachmoud (4h)", className: "color-1", earlyStart: true },
-            { course: "AGL C# (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyFinish: true },
-            { course: "TP Program. Java (+2)", instructor: "Benslimane (4H) F14", className: "color-4" },
+            { course: "Conception OO (+2)", instructor: "Hachmoud (4h)", className: "color-1", earlyStart: true },
+            { course: "Conception OO (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyFinish: true },
+            { course: " ", instructor: " ", className: "color-empty" },
             { course: " ", instructor: " ", className: "color-empty" }
         ]
     }
