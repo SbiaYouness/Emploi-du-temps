@@ -1,10 +1,15 @@
 :root {
     --primary-color: #3498db;
+    --dert-color: #1c608e;
     --secondary-color: #e74c3c;
     --background-color: #ecf0f1;
     --text-color: #2c3e50;
     --border-color: #bdc3c7;
     --uncertain-color: #95a5a6;
+    --tertiary-color: #e74c3c; /* Example tertiary color */
+    --quaternary-color: #f1c40f; /* Example quaternary color */
+    --quinary-color: #9b59b6; /* Example quinary color */
+
 }
 
 body {
@@ -103,7 +108,7 @@ th, td {
     border: 1px solid var(--border-color);
     padding: 12px 8px;
     text-align: center;
-    font-size: 0.9em;
+    font-size: 1.1em;
     vertical-align: top;
     height: 80px;
     overflow: hidden;
@@ -111,23 +116,24 @@ th, td {
 }
 
 th {
-    background-color: var(--primary-color);
+    background-color: var(--dert-color);
     color: white;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 0.8em;
+    font-size: 1em;
     position: sticky;
     top: 0;
     z-index: 10;
 }
 
+
 th.time-slot, td.time-slot {
     width: 70px; /* Adjust as needed */
+    font-size: 0.9em;
+    vertical-align: middle; /* Ensure vertical alignment */
 }
-th.aa {
-    font-size: 1em;
-}
+
 
 .time-slot {
     font-weight: bold;
@@ -225,18 +231,22 @@ th.aa {
 
     th, td {
         padding: 8px 4px;
-        font-size: 0.75em;
+        font-size: 1em;
         height: auto;
         min-width: 80px; /* Keep a reasonable minimum width for small screens */
     }
 
     th.time-slot, td.time-slot {
-        width: 40px; /* Adjust as needed */
-        min-width: 30px; /* Override the min-width for time-slot columns */
+        width: 45px; /* Adjust as needed */
+        min-width: 45px; /* Override the min-width for time-slot columns */
+        font-size: 0.75em;
+        vertical-align: middle; /* Ensure vertical alignment */
+        box-sizing: border-box; /* Ensure padding is included in the element's total height */
     }
+    
 
     .course {
-        font-size: 0.85em;
+        font-size: 1em;
     }
 
     .instructor {
