@@ -44,18 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateArrows() {
         if (currentWeek === 4) {
             leftButton.style.opacity = '0.3';
-            leftButton.classList.add('disabled'); // Add disabled class
+            leftButton.classList.add('disabled');
         } else {
             leftButton.style.opacity = '1';
-            leftButton.classList.remove('disabled'); // Remove disabled class
+            leftButton.classList.remove('disabled');
         }
     
         if (currentWeek === 5) {
             rightButton.style.opacity = '0.3';
-            rightButton.classList.add('disabled'); // Add disabled class
+            rightButton.classList.add('disabled');
         } else {
             rightButton.style.opacity = '1';
-            rightButton.classList.remove('disabled'); // Remove disabled class
+            rightButton.classList.remove('disabled');
         }
     }
 
@@ -92,6 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     slotCell.appendChild(courseElement);
                     slotCell.appendChild(instructorElement);
+
+                    // Handle merged cells
+                    if (slot.colspan) {
+                        slotCell.setAttribute('colspan', slot.colspan);
+                    }
+
+                    // Handle last session indicator
+                    if (slot.className.includes('last-session')) {
+                        const lastLabel = document.createElement('span');
+                        lastLabel.className = 'last-label';
+                        lastLabel.textContent = 'last';
+                        slotCell.appendChild(lastLabel);
+                    }
                 } else {
                     slotCell.className = 'color-empty';
                 }
@@ -99,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             timetableBody.appendChild(row);
+
         });
     }
 
@@ -180,7 +194,7 @@ const nextWeekData = [
             { course: "OSI & TCP/IP (+1)", instructor: "Khartoch (2H)", className: "color-3 last-session" },
             { course: "OSI & TCP/IP (+1)", instructor: "Khartoch (2H)", className: "color-3 last-session" },
             { course: "Program. Java (+1)", instructor: "Benslimane (2H) D12", className: "color-4 last-session" },
-            { course: "Program. Java (+1)", instructor: "Benslimane (2H) D12", className: "color-4 last-session" },
+            { course: "Program. Java (+1)", instructor: "Benslimane (2H) D12", className: "color-4 last-session" }
         ]
     },
     {
@@ -197,8 +211,7 @@ const nextWeekData = [
         slots: [
             { course: "Conception OO (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyStart: true },
             { course: "Conception OO (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyFinish: true },
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: " ", instructor: " ", className: "color-empty" }
+            { course: "PFE", instructor: "", className: "color-empty merged", colspan: 2 }
         ]
     }
 ];

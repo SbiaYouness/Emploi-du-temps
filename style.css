@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 :root {
     --primary-color: #3498db;
     --dert-color: #1c608e;
@@ -287,34 +289,66 @@ footer {
 }
 
 .last-session {
-    position: relative; /* Ensure the pseudo-element is positioned relative to the parent */
+    position: relative;
 }
 
-/* .last-session::after {
-    content: "last";
+.last-label {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.4); /* Reduce opacity */
+    color: rgba(255, 255, 255, 0.8); /* Lighter text color */
     padding: 2px 5px;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: normal; /* Remove bold */
     border-radius: 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    z-index: 0; /* Z-index bas pour éviter les conflits }*/
-
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Soften box shadow */
+    z-index: 1;
+}
 
 .course, .instructor {
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
-.early-start, .early-finish, .last-session {
+.early-start, .early-finish {
     position: relative;
     padding-top: 20px; /* Adjust this value as needed */
     padding-bottom: 20px; /* Add padding at the bottom for the 'last' label */
     min-height: 80px; /* Increase min-height to accommodate all labels */
+}
+
+.merged {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.7) 0%, rgba(231, 76, 60, 0.7) 99%, rgba(231, 76, 60, 0.7) 100%), 
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+    text-align: center;
+    font-size: 3em;
+    font-style: italic;
+    color: #fff0f0;
+    font-family: 'Pacifico', cursive;
+    width: 100%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    letter-spacing: 25px;
+    background-blend-mode: overlay;
+}
+
+@media (max-width: 768px) {
+    .merged {
+        font-size: 2em; /* Reduce font size */
+        letter-spacing: 5px; /* Reduce letter spacing */
+        padding-top: 15px; /* Add some padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .merged {
+        font-size: 1.5em; /* Further reduce font size */
+        letter-spacing: 2px; /* Further reduce letter spacing */
+        padding-top: 20px; /* Add some padding */
+    }
 }
 
 @media (max-width: 768px) {
@@ -384,7 +418,11 @@ footer {
         font-size: 0.7em;
     }
 
-    .early-start::before, .early-finish::after, .recently-added::after, .last-session::after {
+    .early-start::before, .early-finish::after, .recently-added::after {
+        font-size: 0.6em;
+        padding: 1px 3px;
+    }
+    .last-label {
         font-size: 0.6em;
         padding: 1px 3px;
     }
