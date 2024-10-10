@@ -6,15 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let startX;
 
     container.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
+        if (e.touches.length === 1) { // Ensure only one finger is used
+            startX = e.touches[0].clientX;
+        }
     });
 
     container.addEventListener('touchend', (e) => {
-        const endX = e.changedTouches[0].clientX;
-        if (startX > endX + 50) {
-            loadNextWeekTimetable();
-        } else if (startX < endX - 50) {
-            loadPreviousWeekTimetable();
+        if (e.changedTouches.length === 1 && e.touches.length === 0) { // Ensure only one finger is used
+            const endX = e.changedTouches[0].clientX;
+            if (startX > endX + 50) {
+                loadNextWeekTimetable();
+            } else if (startX < endX - 50) {
+                loadPreviousWeekTimetable();
+            }
         }
     });
 
