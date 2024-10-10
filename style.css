@@ -6,10 +6,6 @@
     --text-color: #2c3e50;
     --border-color: #bdc3c7;
     --uncertain-color: #95a5a6;
-    --tertiary-color: #e74c3c; /* Example tertiary color */
-    --quaternary-color: #f1c40f; /* Example quaternary color */
-    --quinary-color: #9b59b6; /* Example quinary color */
-
 }
 
 body {
@@ -22,27 +18,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    margin-top: 0px;
 }
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f1f1f1; /* Subtle background color */
-    display: flex;
-    justify-content: center; /* Space between logo and other content */
-    align-items: center;
-    padding: 5px 10px; /* Adjust padding as needed */
-    font-size: 14px;
-    color: #555; /* Subtle text color */
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
-}
-
-.footer-logo {
-    height: 17px; /* Adjust the height as needed */
-}
-
 
 .container {
     max-width: 1000px;
@@ -51,7 +27,7 @@ footer {
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    
+    position: relative;
 }
 
 #header-info {
@@ -62,10 +38,8 @@ footer {
     position: relative;
 }
 
-.semester-small {
+.semester-small, .class-name {
     position: absolute;
-    top: 12px;
-    left: 12px;
     font-size: 1em;
     font-weight: bold;
     background-color: rgba(255, 255, 255, 0.2);
@@ -73,24 +47,44 @@ footer {
     border-radius: 4px;
 }
 
-.week-info {
-    font-size: 1.3em;
-    margin-bottom: 12px;
+.semester-small {
+    top: 12px;
+    left: 12px;
 }
 
 .class-name {
-    font-size: 1.7em;
+    top: 12px;
+    right: 12px;
+}
+
+.week-info {
+    font-size: 1.3em;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.tilted-sticker {
+    display: inline-block;
+    background-color: #ffeb3b;
+    color: #333;
+    padding: 5px 10px;
+    transform: rotate(-5deg);
     font-weight: bold;
-    margin-bottom: 18px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 200%;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 1;
 }
 
 .sub-info {
     display: flex;
     justify-content: space-between;
     font-size: 1.1em;
-    max-width: 80%;
+    max-width: 50%;
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.1);
     padding: 8px 16px;
@@ -101,7 +95,7 @@ table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    table-layout:fixed;
+    table-layout: fixed;
 }
 
 th, td {
@@ -112,7 +106,7 @@ th, td {
     vertical-align: top;
     height: 80px;
     overflow: hidden;
-    min-width: 100px; /* Set a minimum width for readability */
+    min-width: 100px;
 }
 
 th {
@@ -127,13 +121,11 @@ th {
     z-index: 10;
 }
 
-
 th.time-slot, td.time-slot {
-    width: 70px; /* Adjust as needed */
+    width: 70px;
     font-size: 0.9em;
-    vertical-align: middle; /* Ensure vertical alignment */
+    vertical-align: middle;
 }
-
 
 .time-slot {
     font-weight: bold;
@@ -159,7 +151,6 @@ th.time-slot, td.time-slot {
 .color-3 { background-color: #e6ffe6; }
 .color-4 { background-color: #ffe6e6; }
 .color-5 { background-color: #e6e6ff; }
-.color-6 { background-color: #ffe6f9; }
 .color-empty { background-color: white; }
 .color-uncertain {
     background-color: #f0f0f0;
@@ -167,26 +158,163 @@ th.time-slot, td.time-slot {
 }
 
 .early-start, .early-finish {
-    position: relative;
+    position: relative; /* Parent positionné pour pseudo-éléments */
 }
 
-.early-start::before, .early-finish::after {
+.early-start::before {
     content: attr(data-time);
     position: absolute;
-    top: 0;
     background-color: var(--secondary-color);
     color: white;
     padding: 2px 5px;
     font-size: 0.7em;
     border-radius: 0 0 5px 5px;
-}
-
-.early-start::before {
-    left: 0;
+    z-index: 2; /* Assurez-vous que le z-index est au-dessus des autres éléments si besoin */
+    top: 0;
+    left: 0; /* Positionnement à gauche pour early-start */
 }
 
 .early-finish::after {
-    right: 0;
+    content: attr(data-time);
+    position: absolute;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 2px 5px;
+    font-size: 0.7em;
+    border-radius: 0 0 5px 5px;
+    z-index: 1; /* Un z-index inférieur si vous voulez que early-start passe par-dessus */
+    top: 0;
+    right: 0; /* Positionnement à droite pour early-finish */
+}
+
+
+.arrow-button {
+    position: absolute;
+    top: 0;
+    height: calc(100% - 50px); /* Adjust height to leave space for the footer */
+    width: 150px; /* Adjust width as needed */
+    font-size: 0.1em;
+    background: rgba(64, 155, 216, 0.053); /* Light background color */
+    border: none;
+    cursor: pointer;
+    color: white;
+    z-index: 100;
+    padding: 0;
+    border-radius: 0;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: none; /* No shadow initially */
+}
+
+.arrow-button:hover {
+    background: rgba(64, 155, 216, 0.549); /* Lighter background color on hover */
+    box-shadow: 0 0 15px rgba(157, 195, 255, 0.619), 0 0 30px rgba(171, 206, 255, 0.526), 0 0 45px rgba(199, 223, 255, 0.553); /* Enhanced glow effect on hover */
+}
+
+.arrow-button.disabled {
+    background: rgba(127, 134, 138, 0.2); /* Lighter background for disabled state */
+    cursor: not-allowed;
+    color: gray;
+    box-shadow: none; /* No glow effect for disabled state */
+    pointer-events: none; /* Disable interactions */
+}
+
+.left-button {
+    left: 0px; /* Position just outside the left border of the container */
+}
+
+.right-button {
+    right: 0px; /* Position just outside the right border of the container */
+}
+
+.swipe-indicator {
+    display: none;
+}
+
+.swipe-indicator {
+    display: none;
+    text-align: center;
+    font-size: 0.9em;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 5px;
+    animation: blink 1.8s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #555;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    z-index: 200; 
+}
+
+.footer-logo {
+    height: 17px;
+}
+
+.recently-added {
+    color: rgb(231, 116, 116); /* Red font color for recently added courses */
+    position: relative; /* Ensure the pseudo-element is positioned relative to the parent */
+}
+
+.recently-added::after {
+    content: "TEMP"; /* Text for the sticker */
+    position: absolute;
+    bottom: 0px; /* Adjust position as needed */
+    right: 0px; /* Adjust position as needed */
+    background-color: rgba(255, 255, 0, 0.316); /* Background color for the sticker */
+    color: transparent; /* Make the text color transparent */
+    padding: 2px 5px; /* Padding for the sticker */
+    font-size: 10px; /* Font size for the sticker */
+    font-weight: bold; /* Bold text for the sticker */
+    border-radius: 3px; /* Rounded corners for the sticker */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for better visibility */
+    text-shadow: 0 0 0 black; /* Create the punch-out effect */
+}
+
+.last-session {
+    position: relative; /* Ensure the pseudo-element is positioned relative to the parent */
+}
+
+/* .last-session::after {
+    content: "last";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 0; /* Z-index bas pour éviter les conflits */
+} */
+
+.course, .instructor {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.early-start, .early-finish, .last-session {
+    position: relative;
+    padding-top: 20px; /* Adjust this value as needed */
+    padding-bottom: 20px; /* Add padding at the bottom for the 'last' label */
+    min-height: 80px; /* Increase min-height to accommodate all labels */
 }
 
 @media (max-width: 768px) {
@@ -195,59 +323,58 @@ th.time-slot, td.time-slot {
     }
 
     #header-info {
-        padding: 12px; /* Reduce padding */
+        padding: 12px;
+    }
+
+    .semester-small, .class-name {
+        font-size: 0.7em;
+        padding: 1.5px 3px;
     }
 
     .semester-small {
-        font-size: 0.8em; /* Reduce font size */
-        padding: 2px 4px; /* Reduce padding */
-    }
-
-    .week-info {
-        font-size: 1em; /* Reduce font size */
-        margin-bottom: 8px; /* Reduce margin */
+        top: 5px;
+        left: 5px;
     }
 
     .class-name {
-        font-size: 1.2em; /* Reduce font size */
-        margin-bottom: 12px; /* Reduce margin */
+        top: 5px;
+        right: 5px;
+    }
+
+    .week-info {
+        font-size: 1em;
+        margin-bottom: 8px;
     }
 
     .sub-info {
-        flex-direction: column; /* Stack items vertically */
+        flex-direction: column;
         align-items: center;
-        font-size: 0.9em; /* Reduce font size */
-        padding: 4px 8px; /* Reduce padding */
+        font-size: 0.9em;
+        padding: 4px 8px;
     }
 
     .sub-info div {
-        margin-bottom: 4px; /* Add margin between items */
+        margin-bottom: 4px;
     }
 
     .container {
         border-radius: 0;
     }
 
-    th {
-        font-size: 0.75em;
-    }
-    td {
-        font-size: 1em;
-    }
     th, td {
         padding: 8px 4px;
         height: auto;
-        min-width: 80px; /* Keep a reasonable minimum width for small screens */
+        min-width: 80px;
+        font-size: 0.75em;
     }
 
     th.time-slot, td.time-slot {
-        width: 45px; /* Adjust as needed */
-        min-width: 45px; /* Override the min-width for time-slot columns */
+        width: 45px;
+        min-width: 45px;
         font-size: 0.75em;
-        vertical-align: middle; /* Ensure vertical alignment */
-        box-sizing: border-box; /* Ensure padding is included in the element's total height */
+        vertical-align: middle;
+        box-sizing: border-box;
     }
-    
 
     .course {
         font-size: 1em;
@@ -257,23 +384,46 @@ th.time-slot, td.time-slot {
         font-size: 0.7em;
     }
 
-    .early-start::before, .early-finish::after {
+    .early-start::before, .early-finish::after, .recently-added::after, .last-session::after {
         font-size: 0.6em;
         padding: 1px 3px;
     }
 
-    table {
-        font-size: 0.75em; /* Reduce font size for the entire table */
+    .swipe-indicator {
+        display: block;
+    }
+
+    .arrow-button {
+        display: none;
+    }
+
+    .tilted-sticker {
+        position: absolute;
+        top: 23px;
+        right: 20px;
+    }
+
+    th.time-slot, td.time-slot {
+        font-size: 0.6em;
+    }
+    .aa {
+        font-size: 0.55em;
     }
 }
 
-/* Style for large screens (desktop) */
-@media screen and (min-width: 768px) {
+@media (min-width: 769px) {
     th {
-        height: 20px; /* Adjust height as needed */
-        padding: 10px; /* Optionally adjust padding to reduce size */
+        height: 20px;
+        padding: 10px;
     }
     td {
         height: auto;
+    }
+    .arrow-button {
+        display: block;
+    }
+
+    .swipe-indicator {
+        display: none;
     }
 }
