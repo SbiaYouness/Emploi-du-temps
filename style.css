@@ -302,8 +302,8 @@ footer {
     font-weight: bold;
     border-radius: 3px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    z-index: 0; /* Z-index bas pour éviter les conflits */
-} */
+    z-index: 0; /* Z-index bas pour éviter les conflits }*/
+
 
 .course, .instructor {
     word-wrap: break-word;

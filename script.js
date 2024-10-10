@@ -138,7 +138,7 @@ const initialData = [
     {
         day: "Jeudi",
         slots: [
-            { course: "Droit Social (+5)", instructor: "(10H)", className: "color-uncertain" },
+            { course: " ", instructor: " ", className: "color-empty" },
             { course: "OSI & TCP/IP (+4)", instructor: "Khartoch (8H)", className: "color-3" },
             { course: "Technologie Web (+2)", instructor: "Tmimi (4H)", className: "color-5" },
             { course: " ", instructor: " ", className: "color-empty" }
