@@ -313,8 +313,7 @@ footer {
 
 .early-start, .early-finish {
     position: relative;
-    padding-top: 20px; /* Adjust this value as needed */
-    padding-bottom: 20px; /* Add padding at the bottom for the 'last' label */
+    padding-top: 15px; /* Adjust this value as needed */
     min-height: 80px; /* Increase min-height to accommodate all labels */
 }
 
