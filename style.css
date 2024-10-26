@@ -8,6 +8,88 @@
     --text-color: #2c3e50;
     --border-color: #bdc3c7;
     --uncertain-color: #95a5a6;
+    --arrow-bg: rgba(64, 155, 216, 0.053);
+    --arrow-bg-hover: rgba(64, 155, 216, 0.549);
+}
+
+.close:hover,
+.close:focus {
+    box-shadow: 
+        inset -3.5em 0 0 0 var(--hover),
+        inset 3.5em 0 0 0 var(--hover);  
+}
+
+#G1 { 
+    --color: #DEEAF6;
+    --hover: #C9D8F0;
+}
+#G2 { 
+    --color: #FEF2CB;
+    --hover: #FDE4A3;
+}
+#G3 { 
+    --color: #E2EFD9;
+    --hover: #CDE8B3;
+}
+
+button {
+    background: none;
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 1em 2em;
+    transition: 0.25s;
+    position: relative;
+    overflow: hidden;
+    color: var(--color);
+}
+
+button:hover,
+button:focus { 
+    color: #000000;
+    font-weight: bolder;
+}
+
+code { 
+    color: #e4cb58;
+    font: inherit;
+}
+
+.container1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    text-align: center;
+    border: 2px solid #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: hsl(227, 10%, 10%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+    background-size: 40px 40px;
+}
+
+.container1 h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin: 0;
+    padding: 10px 0;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+    .container1 h2 {
+        font-size: 2.2em;
+    }
+
+    .buttons1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 body {
@@ -40,7 +122,7 @@ body {
     position: relative;
 }
 
-.semester-small, .class-name {
+.semester-small, .week-name {
     position: absolute;
     font-size: 1em;
     font-weight: bold;
@@ -54,30 +136,53 @@ body {
     left: 12px;
 }
 
-.class-name {
+.week-name {
     top: 12px;
     right: 12px;
 }
 
-.week-info {
+.group-info {
     font-size: 1.3em;
     margin-bottom: 12px;
     position: relative;
 }
 
+body.group-1 {
+    background-color: var(--color);
+}
+
+body.group-2 {
+    background-color: var(--color);
+}
+
+body.group-3 {
+    background-color: var(--color);
+}
+
+body.group-1 .tilted-sticker {
+    background-color: var(--hover);
+}
+
+body.group-2 .tilted-sticker {
+    background-color: var(--hover);
+}
+
+body.group-3 .tilted-sticker {
+    background-color: var(--hover);
+}
+
 .tilted-sticker {
     display: inline-block;
-    background-color: #ffeb3b;
     color: #333;
     padding: 5px 10px;
     transform: rotate(-5deg);
     font-weight: bold;
-    font-size: 200%;
+    font-size: 150%;
     border-radius: 8px;
     margin-top: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: absolute;
-    top: 15px;
+    top: 20px;
     right: 20px;
     z-index: 1;
 }
@@ -148,6 +253,36 @@ th.time-slot, td.time-slot {
     font-size: 0.8em;
 }
 
+.course-instructor-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+
+.course-instructor-container.merged {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.course-instructor-container.merged .course {
+    text-align: right;
+}
+
+.course-instructor-container.merged .instructor {
+    text-align: left;
+}
+
+.course {
+    flex: 1;
+    font-weight: bold;
+}
+
+.instructor {
+    flex: 1;
+}
+
 .color-1 { background-color: #e6f3ff; }
 .color-2 { background-color: #fff9e6; }
 .color-3 { background-color: #e6ffe6; }
@@ -160,7 +295,7 @@ th.time-slot, td.time-slot {
 }
 
 .early-start, .early-finish {
-    position: relative; /* Parent positionné pour pseudo-éléments */
+    position: relative;
 }
 
 .early-start::before {
@@ -171,9 +306,9 @@ th.time-slot, td.time-slot {
     padding: 2px 5px;
     font-size: 0.7em;
     border-radius: 0 0 5px 5px;
-    z-index: 2; /* Assurez-vous que le z-index est au-dessus des autres éléments si besoin */
+    z-index: 2;
     top: 0;
-    left: 0; /* Positionnement à gauche pour early-start */
+    left: 0;
 }
 
 .early-finish::after {
@@ -184,19 +319,18 @@ th.time-slot, td.time-slot {
     padding: 2px 5px;
     font-size: 0.7em;
     border-radius: 0 0 5px 5px;
-    z-index: 1; /* Un z-index inférieur si vous voulez que early-start passe par-dessus */
+    z-index: 1;
     top: 0;
-    right: 0; /* Positionnement à droite pour early-finish */
+    right: 0;
 }
-
 
 .arrow-button {
     position: absolute;
     top: 0;
-    height: calc(100% - 50px); /* Adjust height to leave space for the footer */
-    width: 150px; /* Adjust width as needed */
+    height: calc(100% - 50px);
+    width: 150px;
     font-size: 0.1em;
-    background: rgba(64, 155, 216, 0.053); /* Light background color */
+    background: var(--arrow-bg);
     border: none;
     cursor: pointer;
     color: white;
@@ -204,28 +338,28 @@ th.time-slot, td.time-slot {
     padding: 0;
     border-radius: 0;
     transition: background 0.3s, box-shadow 0.3s;
-    box-shadow: none; /* No shadow initially */
+    box-shadow: none;
 }
 
 .arrow-button:hover {
-    background: rgba(64, 155, 216, 0.549); /* Lighter background color on hover */
-    box-shadow: 0 0 15px rgba(157, 195, 255, 0.619), 0 0 30px rgba(171, 206, 255, 0.526), 0 0 45px rgba(199, 223, 255, 0.553); /* Enhanced glow effect on hover */
+    background: var(--arrow-bg-hover);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.25), 0 0 45px rgba(0, 0, 0, 0.2);
 }
 
 .arrow-button.disabled {
-    background: rgba(127, 134, 138, 0.2); /* Lighter background for disabled state */
+    background: rgba(127, 134, 138, 0.2);
     cursor: not-allowed;
     color: gray;
-    box-shadow: none; /* No glow effect for disabled state */
-    pointer-events: none; /* Disable interactions */
+    box-shadow: none;
+    pointer-events: none;
 }
 
 .left-button {
-    left: 0px; /* Position just outside the left border of the container */
+    left: 0px;
 }
 
 .right-button {
-    right: 0px; /* Position just outside the right border of the container */
+    right: 0px;
 }
 
 .swipe-indicator {
@@ -269,23 +403,23 @@ footer {
 }
 
 .recently-added {
-    color: rgb(231, 116, 116); /* Red font color for recently added courses */
-    position: relative; /* Ensure the pseudo-element is positioned relative to the parent */
+    color: rgb(231, 116, 116);
+    position: relative;
 }
 
 .recently-added::after {
-    content: "TEMP"; /* Text for the sticker */
+    content: "TEMP";
     position: absolute;
-    bottom: 0px; /* Adjust position as needed */
-    right: 0px; /* Adjust position as needed */
-    background-color: rgba(255, 255, 0, 0.316); /* Background color for the sticker */
-    color: transparent; /* Make the text color transparent */
-    padding: 2px 5px; /* Padding for the sticker */
-    font-size: 10px; /* Font size for the sticker */
-    font-weight: bold; /* Bold text for the sticker */
-    border-radius: 3px; /* Rounded corners for the sticker */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for better visibility */
-    text-shadow: 0 0 0 black; /* Create the punch-out effect */
+    bottom: 0px;
+    right: 0px;
+    background-color: rgba(255, 255, 0, 0.316);
+    color: transparent;
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 0 black;
 }
 
 .last-session {
@@ -296,13 +430,13 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.4); /* Reduce opacity */
-    color: rgba(255, 255, 255, 0.8); /* Lighter text color */
+    background-color: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.8);
     padding: 2px 5px;
     font-size: 10px;
-    font-weight: normal; /* Remove bold */
+    font-weight: normal;
     border-radius: 3px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Soften box shadow */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -313,40 +447,23 @@ footer {
 
 .early-start, .early-finish {
     position: relative;
-    padding-top: 15px; /* Adjust this value as needed */
-    min-height: 80px; /* Increase min-height to accommodate all labels */
-}
-
-.merged {
-    background: linear-gradient(135deg, rgba(52, 152, 219, 0.7) 0%, rgba(231, 76, 60, 0.7) 99%, rgba(231, 76, 60, 0.7) 100%), 
-                url('https://www.transparenttextures.com/patterns/cubes.png');
-    text-align: center;
-    font-size: 3em;
-    font-style: italic;
-    color: #fff0f0;
-    font-family: 'Pacifico', cursive;
-    width: 100%;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    font-weight: bold;
-    letter-spacing: 25px;
-    background-blend-mode: overlay;
+    padding-top: 15px;
+    min-height: 80px;
 }
 
 @media (max-width: 768px) {
     .merged {
-        font-size: 2em; /* Reduce font size */
-        letter-spacing: 5px; /* Reduce letter spacing */
-        padding-top: 15px; /* Add some padding */
+        font-size: 2em;
+        letter-spacing: 5px;
+        padding-top: 15px;
     }
 }
 
 @media (max-width: 480px) {
     .merged {
-        font-size: 1.5em; /* Further reduce font size */
-        letter-spacing: 2px; /* Further reduce letter spacing */
-        padding-top: 20px; /* Add some padding */
+        font-size: 1.5em;
+        letter-spacing: 2px;
+        padding-top: 20px;
     }
 }
 
@@ -359,7 +476,7 @@ footer {
         padding: 12px;
     }
 
-    .semester-small, .class-name {
+    .semester-small, .week-name {
         font-size: 0.7em;
         padding: 1.5px 3px;
     }
@@ -369,12 +486,12 @@ footer {
         left: 5px;
     }
 
-    .class-name {
+    .week-name {
         top: 5px;
         right: 5px;
     }
 
-    .week-info {
+    .group-info {
         font-size: 1em;
         margin-bottom: 8px;
     }
@@ -392,6 +509,8 @@ footer {
 
     .container {
         border-radius: 0;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 
     th, td {
@@ -399,6 +518,12 @@ footer {
         height: auto;
         min-width: 80px;
         font-size: 0.75em;
+        vertical-align: top;
+    }
+
+    td {
+        min-height: 90px;
+        vertical-align: top;
     }
 
     th.time-slot, td.time-slot {
@@ -456,11 +581,9 @@ footer {
     td {
         height: auto;
     }
-    .arrow-button {
-        display: block;
-    }
 
     .swipe-indicator {
         display: none;
     }
+
 }

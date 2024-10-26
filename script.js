@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.container');
     const leftButton = document.querySelector('.left-button');
     const rightButton = document.querySelector('.right-button');
-    let currentWeek = 4;
+    const groupButtons = document.querySelectorAll('.buttons1 button');
+    let currentGroup = 1;
     let startX;
 
     container.addEventListener('touchstart', (e) => {
@@ -15,46 +16,80 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.changedTouches.length === 1 && e.touches.length === 0) { // Ensure only one finger is used
             const endX = e.changedTouches[0].clientX;
             if (startX > endX + 50) {
-                loadNextWeekTimetable();
+                loadNextGroupTimetable();
             } else if (startX < endX - 50) {
-                loadPreviousWeekTimetable();
+                loadPreviousGroupTimetable();
             }
         }
     });
 
-    leftButton.addEventListener('click', loadPreviousWeekTimetable);
-    rightButton.addEventListener('click', loadNextWeekTimetable);
+    leftButton.addEventListener('click', loadPreviousGroupTimetable);
+    rightButton.addEventListener('click', loadNextGroupTimetable);
 
-    function loadNextWeekTimetable() {
-        if (currentWeek < 5) {
-            currentWeek++;
+    groupButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            currentGroup = parseInt(button.id.replace('G', ''));
+            document.querySelector('.container1').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'block');
+            updateTimetable();
+        });
+    });
+
+    function loadNextGroupTimetable() {
+        if (currentGroup < 3) {
+            currentGroup++;
             updateTimetable();
         }
     }
 
-    function loadPreviousWeekTimetable() {
-        if (currentWeek > 4) {
-            currentWeek--;
+    function loadPreviousGroupTimetable() {
+        if (currentGroup > 1) {
+            currentGroup--;
             updateTimetable();
         }
     }
 
     function updateTimetable() {
-        document.querySelector('.week-info .tilted-sticker').textContent = currentWeek;
-        fillTimetable(currentWeek === 4 ? initialData : nextWeekData);
+        document.querySelector('.tilted-sticker').textContent = `G${currentGroup}`;
+        fillTimetable(currentGroup === 1 ? group1Data : currentGroup === 2 ? group2Data : group3Data);
         updateArrows();
+        updateBackgroundColor();
+    }
+
+    function updateBackgroundColor() {
+        document.body.className = ''; // Clear existing classes
+        document.body.classList.add(`group-${currentGroup}`);
+        
+        // Set CSS variables based on the current group
+        if (currentGroup === 1) {
+            document.documentElement.style.setProperty('--color', '#DEEAF6');
+            document.documentElement.style.setProperty('--hover', '#C9D8F0');
+            document.documentElement.style.setProperty('--arrow-bg', 'rgba(222, 234, 246, 0.2)');
+            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(222, 234, 246, 0.7)'); // Darker hover color
+        } else if (currentGroup === 2) {
+            document.documentElement.style.setProperty('--color', '#FEF2CB');
+            document.documentElement.style.setProperty('--hover', '#FDE4A3');
+            document.documentElement.style.setProperty('--arrow-bg', 'rgba(254, 242, 203, 0.2)');
+            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(254, 242, 203, 0.7)'); // Darker hover color
+        } else if (currentGroup === 3) {
+            document.documentElement.style.setProperty('--color', '#E2EFD9');
+            document.documentElement.style.setProperty('--hover', '#CDE8B3');
+            document.documentElement.style.setProperty('--arrow-bg', 'rgba(226, 239, 217, 0.2)');
+            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(226, 239, 217, 0.7)'); // Darker hover color
+        }
     }
 
     function updateArrows() {
-        if (currentWeek === 4) {
+        if (currentGroup === 1) {
             leftButton.style.opacity = '0.3';
             leftButton.classList.add('disabled');
         } else {
             leftButton.style.opacity = '1';
             leftButton.classList.remove('disabled');
         }
-    
-        if (currentWeek === 5) {
+
+        if (currentGroup === 3) {
             rightButton.style.opacity = '0.3';
             rightButton.classList.add('disabled');
         } else {
@@ -78,12 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const slotCell = document.createElement('td');
                 if (slot.course) {
                     slotCell.className = slot.className;
+
+                    const courseInstructorContainer = document.createElement('div');
+                    courseInstructorContainer.className = 'course-instructor-container';
+
                     const courseElement = document.createElement('div');
                     courseElement.className = 'course';
                     courseElement.textContent = slot.course;
+
                     const instructorElement = document.createElement('div');
                     instructorElement.className = 'instructor';
                     instructorElement.textContent = slot.instructor;
+
+                    courseInstructorContainer.appendChild(courseElement);
+                    courseInstructorContainer.appendChild(instructorElement);
+                    slotCell.appendChild(courseInstructorContainer);
 
                     if (slot.earlyStart) {
                         slotCell.classList.add('early-start');
@@ -94,12 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         slotCell.setAttribute('data-time', '12:00');
                     }
 
-                    slotCell.appendChild(courseElement);
-                    slotCell.appendChild(instructorElement);
-
                     // Handle merged cells
-                    if (slot.colspan) {
+                    if (slot.colspan === 2) {
                         slotCell.setAttribute('colspan', slot.colspan);
+                        courseInstructorContainer.classList.add('merged');
                     }
 
                     // Handle last session indicator
@@ -116,106 +158,131 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             timetableBody.appendChild(row);
-
         });
     }
 
-    fillTimetable(initialData);
-    updateArrows();
+    // Initially hide the timetable and show the group selection
+    document.querySelector('.container').style.display = 'none';
+    document.querySelector('.container1').style.display = 'block';
 });
 
-// Define timetable data
-const initialData = [
+
+// Define timetable data for groups
+const group1Data = [
     {
         day: "Lundi",
         slots: [
-            { course: "AGL C# (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyStart: true },
-            { course: "AGL C# (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyFinish: true },
-            { course: "Gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" },
-            { course: "Gestion projets (+2)", instructor: "Gmira (4H)", className: "color-2" }
+            { course: "TP AGL C# (6-11)", instructor: "Hachmoud (24h) F14", className: "color-1", earlyStart: true, earlyFinish: true, colspan: 2},
+            { course: "Org. des Entreprises (6-15)", instructor: "Bartat (20H)", className: "color-empty" },
+            { course: "Tech. Rech. d'Emploi (6-16)", instructor: "Belkhou (20H)", className: "color-empty" }
         ]
     },
     {
         day: "Mardi",
         slots: [
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: "OSI & TCP/IP (+2)", instructor: "Khartoch (4H)", className: "color-3" },
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: " ", instructor: " ", className: "color-empty" }
+            { course: "TP Gest. projets (6-10)", instructor: "Gmira (20H) F11", className: "color-2", colspan: 2 },
+            { course: "TP OSI & TCP/IP (6-10)", instructor: "Khartoch (20H) F13", className: "color-4", colspan: 2 }
         ]
     },
     {
         day: "Mercredi",
         slots: [
-            { course: "OSI & TCP/IP", instructor: "Khartoch", className: "color-3 recently-added" },
-            { course: "OSI & TCP/IP (+2)", instructor: "Khartoch (4H)", className: "color-3" },
-            { course: "Program. Java (+2)", instructor: "Benslimane (4H) D12", className: "color-4" },
-            { course: "Program. Java (+2)", instructor: "Benslimane (4H) D12", className: "color-4" }
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2},
+            { course: "TP Prog. Java (6-12)", instructor: "Benslimane (28H) F14", className: "color-5", colspan: 2 }
         ]
     },
     {
         day: "Jeudi",
         slots: [
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: "OSI & TCP/IP (+4)", instructor: "Khartoch (8H)", className: "color-3" },
-            { course: "Technologie Web (+2)", instructor: "Tmimi (4H)", className: "color-5" },
-            { course: " ", instructor: " ", className: "color-empty" }
+            { course: "entrepreneuriat (6-16)", instructor: "Lazaar (22H)", className: "color-empty" },
+            { course: "OSI & TCP/IP (1-7)", instructor: "Khartoch (14H)", className: "color-empty" },
+            { course: "TP Tech. Web (6-10)", instructor: "Tmimi (20H) F14", className: "color-3", colspan: 2 }
         ]
     },
     {
         day: "Vendredi",
         slots: [
-            { course: "Conception OO (+2)", instructor: "Hachmoud (4h)", className: "color-1", earlyStart: true },
-            { course: "Conception OO (+2)", instructor: "Hachmoud (4H)", className: "color-1", earlyFinish: true },
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: " ", instructor: " ", className: "color-empty" }
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2},
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
         ]
     }
 ];
 
-const nextWeekData = [
+const group2Data = [
     {
         day: "Lundi",
         slots: [
-            { course: "AGL C# (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyStart: true },
-            { course: "AGL C# (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyFinish: true },
-            { course: "Gestion projets (+1)", instructor: "Gmira (2H)", className: "color-2 last-session" },
-            { course: "Gestion projets (+1)", instructor: "Gmira (2H)", className: "color-2 last-session" }
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2},
+            { course: "Org. des Entreprises (6-15)", instructor: "Bartat (20H)", className: "color-empty" },
+            { course: "Tech. Rech. d'Emploi (6-16)", instructor: "Belkhou (20H)", className: "color-empty" }
         ]
     },
     {
         day: "Mardi",
         slots: [
-            { course: "Droit Social (+5)", instructor: "(10H)", className: "color-uncertain" },
-            { course: "OSI & TCP/IP (+1)", instructor: "Khartoch (2H)", className: "color-3 last-session" },
-            { course: " ", instructor: " ", className: "color-empty" },
-            { course: " ", instructor: " ", className: "color-empty" }
+            { course: "TP AGL C# (6-11)", instructor: "Hachmoud (24h) F14", className: "color-1", earlyStart: true, earlyFinish: true, colspan: 2},
+            { course: "TP Gest. projets (6-10)", instructor: "Gmira (20H) F12", className: "color-2", colspan: 2 }
         ]
     },
     {
         day: "Mercredi",
         slots: [
-            { course: "OSI & TCP/IP (+1)", instructor: "Khartoch (2H)", className: "color-3 last-session" },
-            { course: "OSI & TCP/IP (+1)", instructor: "Khartoch (2H)", className: "color-3 last-session" },
-            { course: "Program. Java (+1)", instructor: "Benslimane (2H) D12", className: "color-4 last-session" },
-            { course: "Program. Java (+1)", instructor: "Benslimane (2H) D12", className: "color-4 last-session" }
+            { course: "TP OSI & TCP/IP (6-10)", instructor: "Khartoch (20H) F13", className: "color-4", colspan: 2 },
+            { course: "TP Tech. Web (6-10)", instructor: "Tmimi (20H) F13", className: "color-3", colspan: 2 }
         ]
     },
     {
         day: "Jeudi",
         slots: [
-            { course: "Droit Social (+5)", instructor: "(10H)", className: "color-uncertain" },
-            { course: "OSI & TCP/IP (+3)", instructor: "Khartoch (6H)", className: "color-3" },
-            { course: "Technologie Web (+1)", instructor: "Tmimi (2H)", className: "color-5 last-session" },
-            { course: "Technologie Web (+1)", instructor: "Tmimi (2H)", className: "color-5 last-session" }
+            { course: "entrepreneuriat (6-16)", instructor: "Lazaar (22H)", className: "color-empty" },
+            { course: "OSI & TCP/IP (1-7)", instructor: "Khartoch (14H)", className: "color-empty" },
+            { course: "TP Prog. Java (6-12)", instructor: "Benslimane (20H) F12", className: "color-5", colspan: 2 }
         ]
     },
     {
         day: "Vendredi",
         slots: [
-            { course: "Conception OO (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyStart: true },
-            { course: "Conception OO (+1)", instructor: "Hachmoud (2H)", className: "color-1 last-session", earlyFinish: true },
-            { course: "PFE", instructor: "", className: "color-empty merged", colspan: 2 }
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2},
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
+            ]
+    }
+];
+const group3Data = [
+    {
+        day: "Lundi",
+        slots: [
+            { course: "TP Gest. projets (6-10)", instructor: "Gmira (20H) F11", className: "color-2", colspan: 2 },
+            { course: "Org. des Entreprises (6-15)", instructor: "Bartat (20H)", className: "color-empty" },
+            { course: "Tech. Rech. d'Emploi (6-16)", instructor: "Belkhou (20H)", className: "color-empty" }
+        ]
+    },
+    {
+        day: "Mardi",
+        slots: [
+            { course: "TP OSI & TCP/IP (6-10)", instructor: "Khartoch (20H) F13", className: "color-4", colspan: 2 },
+            { course: "TP Prog. Java (6-12)", instructor: "Benslimane (20H) F14", className: "color-5", colspan: 2 }
+        ]
+    },
+    {
+        day: "Mercredi",
+        slots: [
+            { course: "TP Tech. Web (6-10)", instructor: "Tmimi (20H) F11", className: "color-3", colspan: 2 },
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
+        ]
+    },
+    {
+        day: "Jeudi",
+        slots: [
+            { course: "entrepreneuriat (6-16)", instructor: "Lazaar (22H)", className: "color-empty" },
+            { course: "OSI & TCP/IP (1-7)", instructor: "Khartoch (14H)", className: "color-empty" },
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
+        ]
+    },
+    {
+        day: "Vendredi",
+        slots: [
+            { course: "TP AGL C# (6-11)", instructor: "Hachmoud (24h) F14", className: "color-1", earlyStart: true, earlyFinish: true, colspan: 2},
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
         ]
     }
 ];
