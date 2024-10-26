@@ -299,7 +299,7 @@ th.time-slot, td.time-slot {
 }
 
 .early-start::before {
-    content: attr(data-time);
+    content: attr(data-time1);
     position: absolute;
     background-color: var(--secondary-color);
     color: white;
@@ -360,10 +360,6 @@ th.time-slot, td.time-slot {
 
 .right-button {
     right: 0px;
-}
-
-.swipe-indicator {
-    display: none;
 }
 
 .swipe-indicator {
@@ -509,8 +505,8 @@ footer {
 
     .container {
         border-radius: 0;
-        overflow-x: auto;
-        white-space: nowrap;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent wrapping */
     }
 
     th, td {
@@ -579,11 +575,14 @@ footer {
         padding: 10px;
     }
     td {
-        height: auto;
+        height: 30px;
     }
 
     .swipe-indicator {
         display: none;
     }
 
+    .arrow-button {
+        display: block;
+    }
 }

@@ -23,6 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.body.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) { // Ensure only one finger is used
+            startX = e.touches[0].clientX;
+        }
+    });
+
+    document.body.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length === 1 && e.touches.length === 0) { // Ensure only one finger is used
+            const endX = e.changedTouches[0].clientX;
+            if (startX > endX + 50) {
+                loadNextGroupTimetable();
+            } else if (startX < endX - 50) {
+                loadPreviousGroupTimetable();
+            }
+        }
+    });
+
     leftButton.addEventListener('click', loadPreviousGroupTimetable);
     rightButton.addEventListener('click', loadNextGroupTimetable);
 
@@ -31,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentGroup = parseInt(button.id.replace('G', ''));
             document.querySelector('.container1').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
-            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'block');
+            updateArrowButtonsVisibility();
             updateTimetable();
         });
     });
@@ -98,6 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function updateArrowButtonsVisibility() {
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'block');
+        } else {
+            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'none');
+        }
+    }
+
     function fillTimetable(data) {
         const timetableBody = document.querySelector('#timetable tbody');
         timetableBody.innerHTML = '';
@@ -131,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (slot.earlyStart) {
                         slotCell.classList.add('early-start');
-                        slotCell.setAttribute('data-time', '8:00');
+                        slotCell.setAttribute('data-time1', '8:00');
                     }
                     if (slot.earlyFinish) {
                         slotCell.classList.add('early-finish');
@@ -164,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initially hide the timetable and show the group selection
     document.querySelector('.container').style.display = 'none';
     document.querySelector('.container1').style.display = 'block';
+    updateArrowButtonsVisibility(); // Ensure arrow buttons are correctly shown/hidden on initial load
 });
 
 
