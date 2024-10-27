@@ -32,6 +32,7 @@
     --hover: #CDE8B3;
 }
 
+
 button {
     background: none;
     border: 2px solid;
@@ -105,13 +106,14 @@ body {
 }
 
 .container {
-    max-width: 1000px;
-    width: 100%;
+    width: 1000px;
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    overflow: auto;
     position: relative;
+    margin: 0 auto;
+    white-space: nowrap;
 }
 
 #header-info {
@@ -374,6 +376,25 @@ th.time-slot, td.time-slot {
     animation: blink 1.8s infinite;
 }
 
+.ring-of-fire {
+    border: 2px solid red;
+    border-radius: 50%;
+    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+    }
+    50% {
+        box-shadow: 0 0 20px red, 0 0 40px red, 0 0 60px red;
+    }
+    100% {
+        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+    }
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
@@ -447,7 +468,7 @@ footer {
     min-height: 80px;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .merged {
         font-size: 2em;
         letter-spacing: 5px;
@@ -461,91 +482,9 @@ footer {
         letter-spacing: 2px;
         padding-top: 20px;
     }
-}
+} */
 
 @media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-
-    #header-info {
-        padding: 12px;
-    }
-
-    .semester-small, .week-name {
-        font-size: 0.7em;
-        padding: 1.5px 3px;
-    }
-
-    .semester-small {
-        top: 5px;
-        left: 5px;
-    }
-
-    .week-name {
-        top: 5px;
-        right: 5px;
-    }
-
-    .group-info {
-        font-size: 1em;
-        margin-bottom: 8px;
-    }
-
-    .sub-info {
-        flex-direction: column;
-        align-items: center;
-        font-size: 0.9em;
-        padding: 4px 8px;
-    }
-
-    .sub-info div {
-        margin-bottom: 4px;
-    }
-
-    .container {
-        border-radius: 0;
-        overflow-x: auto; /* Enable horizontal scrolling */
-        white-space: nowrap; /* Prevent wrapping */
-    }
-
-    th, td {
-        padding: 8px 4px;
-        height: auto;
-        min-width: 80px;
-        font-size: 0.75em;
-        vertical-align: top;
-    }
-
-    td {
-        min-height: 90px;
-        vertical-align: top;
-    }
-
-    th.time-slot, td.time-slot {
-        width: 45px;
-        min-width: 45px;
-        font-size: 0.75em;
-        vertical-align: middle;
-        box-sizing: border-box;
-    }
-
-    .course {
-        font-size: 1em;
-    }
-
-    .instructor {
-        font-size: 0.7em;
-    }
-
-    .early-start::before, .early-finish::after, .recently-added::after {
-        font-size: 0.6em;
-        padding: 1px 3px;
-    }
-    .last-label {
-        font-size: 0.6em;
-        padding: 1px 3px;
-    }
 
     .swipe-indicator {
         display: block;
@@ -553,19 +492,6 @@ footer {
 
     .arrow-button {
         display: none;
-    }
-
-    .tilted-sticker {
-        position: absolute;
-        top: 23px;
-        right: 20px;
-    }
-
-    th.time-slot, td.time-slot {
-        font-size: 0.6em;
-    }
-    .aa {
-        font-size: 0.55em;
     }
 }
 

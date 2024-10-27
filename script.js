@@ -3,40 +3,87 @@ document.addEventListener('DOMContentLoaded', () => {
     const leftButton = document.querySelector('.left-button');
     const rightButton = document.querySelector('.right-button');
     const groupButtons = document.querySelectorAll('.buttons1 button');
+    const swipeIndicator = document.querySelector('.swipe-indicator');
+    const swipeIndicatorContainer = document.querySelector('.swipe-indicator-container');
     let currentGroup = 1;
     let startX;
+    let isDragging = false;
+    let isSwipeInsideTimetable = false;
 
     container.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) { // Ensure only one finger is used
+        if (e.touches.length === 1) {
             startX = e.touches[0].clientX;
+            isSwipeInsideTimetable = true;
         }
     });
 
     container.addEventListener('touchend', (e) => {
-        if (e.changedTouches.length === 1 && e.touches.length === 0) { // Ensure only one finger is used
-            const endX = e.changedTouches[0].clientX;
-            if (startX > endX + 50) {
-                loadNextGroupTimetable();
-            } else if (startX < endX - 50) {
-                loadPreviousGroupTimetable();
-            }
+        if (isSwipeInsideTimetable) {
+            isSwipeInsideTimetable = false;
+            return;
         }
     });
 
     document.body.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) { // Ensure only one finger is used
+        if (e.touches.length === 1) {
             startX = e.touches[0].clientX;
+            isSwipeInsideTimetable = false;
         }
     });
 
     document.body.addEventListener('touchend', (e) => {
-        if (e.changedTouches.length === 1 && e.touches.length === 0) { // Ensure only one finger is used
+        if (!isSwipeInsideTimetable && e.changedTouches.length === 1 && e.touches.length === 0) {
             const endX = e.changedTouches[0].clientX;
             if (startX > endX + 50) {
                 loadNextGroupTimetable();
             } else if (startX < endX - 50) {
                 loadPreviousGroupTimetable();
             }
+        }
+    });
+
+    swipeIndicator.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+        }
+    });
+
+    swipeIndicator.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches.length === 1) {
+            const moveX = e.touches[0].clientX - startX;
+            const containerWidth = swipeIndicatorContainer.offsetWidth;
+            const indicatorWidth = swipeIndicator.offsetWidth;
+            let newLeft = swipeIndicator.offsetLeft + moveX;
+
+            // Constrain the indicator within the container
+            newLeft = Math.max(0, Math.min(newLeft, containerWidth - indicatorWidth));
+            swipeIndicator.style.left = `${newLeft}px`;
+
+            startX = e.touches[0].clientX;
+        }
+    });
+
+    swipeIndicator.addEventListener('touchend', (e) => {
+        if (isDragging) {
+            isDragging = false;
+            const containerWidth = swipeIndicatorContainer.offsetWidth;
+            const indicatorWidth = swipeIndicator.offsetWidth;
+            const thirdWidth = containerWidth / 3;
+
+            // Determine the new position of the indicator
+            if (swipeIndicator.offsetLeft < thirdWidth / 2) {
+                swipeIndicator.style.left = '0';
+                currentGroup = 1;
+            } else if (swipeIndicator.offsetLeft < 1.5 * thirdWidth) {
+                swipeIndicator.style.left = `${thirdWidth}px`;
+                currentGroup = 2;
+            } else {
+                swipeIndicator.style.left = `${2 * thirdWidth}px`;
+                currentGroup = 3;
+            }
+
+            updateTimetable();
         }
     });
 
@@ -48,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentGroup = parseInt(button.id.replace('G', ''));
             document.querySelector('.container1').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
+            updateSwipeIndicator();
             updateArrowButtonsVisibility();
             updateTimetable();
         });
@@ -56,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadNextGroupTimetable() {
         if (currentGroup < 3) {
             currentGroup++;
+            updateSwipeIndicator();
             updateTimetable();
         }
     }
@@ -63,7 +112,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadPreviousGroupTimetable() {
         if (currentGroup > 1) {
             currentGroup--;
+            updateSwipeIndicator();
             updateTimetable();
+        }
+    }
+
+    function updateSwipeIndicator() {
+        const containerWidth = swipeIndicatorContainer.offsetWidth;
+        const thirdWidth = containerWidth / 3;
+
+        if (currentGroup === 1) {
+            swipeIndicator.style.left = '0';
+        } else if (currentGroup === 2) {
+            swipeIndicator.style.left = `${thirdWidth}px`;
+        } else if (currentGroup === 3) {
+            swipeIndicator.style.left = `${2 * thirdWidth}px`;
         }
     }
 
@@ -72,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillTimetable(currentGroup === 1 ? group1Data : currentGroup === 2 ? group2Data : group3Data);
         updateArrows();
         updateBackgroundColor();
+        highlightCurrentDay();
     }
 
     function updateBackgroundColor() {
@@ -186,12 +250,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function highlightCurrentDay() {
+        const daysOfWeek = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+        const today = new Date().getDay();
+        const todayName = daysOfWeek[today];
+
+        const rows = document.querySelectorAll('#timetable tbody tr');
+        rows.forEach(row => {
+            const dayCell = row.querySelector('.time-slot');
+            if (dayCell && dayCell.textContent === todayName) {
+                row.classList.add('ring-of-fire');
+            } else {
+                row.classList.remove('ring-of-fire');
+            }
+        });
+    }
+
     // Initially hide the timetable and show the group selection
     document.querySelector('.container').style.display = 'none';
     document.querySelector('.container1').style.display = 'block';
     updateArrowButtonsVisibility(); // Ensure arrow buttons are correctly shown/hidden on initial load
+    highlightCurrentDay(); // Highlight the current day on initial load
 });
-
 
 // Define timetable data for groups
 const group1Data = [
