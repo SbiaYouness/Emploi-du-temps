@@ -120,6 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         lastLabel.textContent = 'last';
                         slotCell.appendChild(lastLabel);
                     }
+
+                    // Handle exam indicator
+                    if (slot.className.includes('exam')) {
+                        const examLabel = document.createElement('span');
+                        examLabel.className = 'exam-label';
+                        examLabel.textContent = 'EXAM';
+                        slotCell.appendChild(examLabel);
+                    }
                 } else {
                     slotCell.className = 'color-empty';
                 }
@@ -145,6 +153,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Function to add a class to specific courses on a specific day for all groups
+    function addClassToCourses(courseName, className) {
+        [group1Data, group2Data, group3Data].forEach(groupData => {
+            groupData.forEach(day => {
+                day.slots.forEach(slot => {
+                    if (slot.course.includes(courseName)) {
+                        slot.className += ` ${className}`;
+                        slot.className += ' blink-border'; // Add the blink-border class
+
+                    }
+                });
+            });
+        });
+    }
+
+    // Example usage: Add "exam" class to OSI & TCP/IP courses
+    addClassToCourses("OSI & TCP/IP (1-7)", "exam");
+    // addClassToCourses("TP Tech", "exam");
 
     // Initially hide the timetable and slider, and show the group selection
     document.querySelector('.container').style.display = 'none';
@@ -261,7 +288,7 @@ const group3Data = [
         slots: [
             { course: "entrepreneuriat (6-16)", instructor: "Lazaar (22H)", className: "color-empty" },
             { course: "OSI & TCP/IP (1-7)", instructor: "Khartoch (14H)", className: "color-empty" },
-            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
+            { course: "TP Prog. Java (6-12)", instructor: "Benslimane (20H) F12", className: "color-5", colspan: 2 }
         ]
     },
     {
