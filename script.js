@@ -288,7 +288,7 @@ const group3Data = [
         slots: [
             { course: "entrepreneuriat (6-16)", instructor: "Lazaar (22H)", className: "color-empty" },
             { course: "OSI & TCP/IP (1-7)", instructor: "Khartoch (14H)", className: "color-empty" },
-            { course: "TP Prog. Java (6-12)", instructor: "Benslimane (20H) F12", className: "color-5", colspan: 2 }
+            { course: " ", instructor: " ", className: "color-empty", colspan: 2}
         ]
     },
     {
