@@ -1,139 +1,51 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.container');
-    const leftButton = document.querySelector('.left-button');
-    const rightButton = document.querySelector('.right-button');
     const groupButtons = document.querySelectorAll('.buttons1 button');
-    const swipeIndicator = document.querySelector('.swipe-indicator');
-    const swipeIndicatorContainer = document.querySelector('.swipe-indicator-container');
+    const slider = document.getElementById('slider');
+    const sliderContainer = document.querySelector('.slider-container');
+    const returnButton = document.querySelector('.return-button');
     let currentGroup = 1;
-    let startX;
-    let isDragging = false;
-    let isSwipeInsideTimetable = false;
 
-    container.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-            startX = e.touches[0].clientX;
-            isSwipeInsideTimetable = true;
-        }
+    function updateSlider(value) {
+        slider.value = value; // Update the slider value
+        const percent = (value / 2) * 100;
+        slider.style.background = `linear-gradient(to right, var(--color) ${percent}%, #e2e8f0 ${percent}%)`;
+    }
+
+    slider.addEventListener('input', (e) => {
+        updateSlider(parseInt(e.target.value));
+        currentGroup = parseInt(e.target.value) + 1;
+        updateTimetable();
     });
 
-    container.addEventListener('touchend', (e) => {
-        if (isSwipeInsideTimetable) {
-            isSwipeInsideTimetable = false;
-            return;
-        }
+    slider.addEventListener('touchstart', () => {
+        slider.style.transform = 'scale(1.02)';
     });
 
-    document.body.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-            startX = e.touches[0].clientX;
-            isSwipeInsideTimetable = false;
-        }
+    slider.addEventListener('touchend', () => {
+        slider.style.transform = 'scale(1)';
     });
-
-    document.body.addEventListener('touchend', (e) => {
-        if (!isSwipeInsideTimetable && e.changedTouches.length === 1 && e.touches.length === 0) {
-            const endX = e.changedTouches[0].clientX;
-            if (startX > endX + 50) {
-                loadNextGroupTimetable();
-            } else if (startX < endX - 50) {
-                loadPreviousGroupTimetable();
-            }
-        }
-    });
-
-    swipeIndicator.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-            isDragging = true;
-            startX = e.touches[0].clientX;
-        }
-    });
-
-    swipeIndicator.addEventListener('touchmove', (e) => {
-        if (isDragging && e.touches.length === 1) {
-            const moveX = e.touches[0].clientX - startX;
-            const containerWidth = swipeIndicatorContainer.offsetWidth;
-            const indicatorWidth = swipeIndicator.offsetWidth;
-            let newLeft = swipeIndicator.offsetLeft + moveX;
-
-            // Constrain the indicator within the container
-            newLeft = Math.max(0, Math.min(newLeft, containerWidth - indicatorWidth));
-            swipeIndicator.style.left = `${newLeft}px`;
-
-            startX = e.touches[0].clientX;
-        }
-    });
-
-    swipeIndicator.addEventListener('touchend', (e) => {
-        if (isDragging) {
-            isDragging = false;
-            const containerWidth = swipeIndicatorContainer.offsetWidth;
-            const indicatorWidth = swipeIndicator.offsetWidth;
-            const thirdWidth = containerWidth / 3;
-
-            // Determine the new position of the indicator
-            if (swipeIndicator.offsetLeft < thirdWidth / 2) {
-                swipeIndicator.style.left = '0';
-                currentGroup = 1;
-            } else if (swipeIndicator.offsetLeft < 1.5 * thirdWidth) {
-                swipeIndicator.style.left = `${thirdWidth}px`;
-                currentGroup = 2;
-            } else {
-                swipeIndicator.style.left = `${2 * thirdWidth}px`;
-                currentGroup = 3;
-            }
-
-            updateTimetable();
-        }
-    });
-
-    leftButton.addEventListener('click', loadPreviousGroupTimetable);
-    rightButton.addEventListener('click', loadNextGroupTimetable);
 
     groupButtons.forEach(button => {
         button.addEventListener('click', () => {
             currentGroup = parseInt(button.id.replace('G', ''));
             document.querySelector('.container1').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
-            updateSwipeIndicator();
-            updateArrowButtonsVisibility();
+            sliderContainer.style.display = 'flex'; // Show the slider
+            updateSlider(currentGroup - 1); // Synchronize the slider thumb
             updateTimetable();
         });
     });
 
-    function loadNextGroupTimetable() {
-        if (currentGroup < 3) {
-            currentGroup++;
-            updateSwipeIndicator();
-            updateTimetable();
-        }
-    }
-
-    function loadPreviousGroupTimetable() {
-        if (currentGroup > 1) {
-            currentGroup--;
-            updateSwipeIndicator();
-            updateTimetable();
-        }
-    }
-
-    function updateSwipeIndicator() {
-        const containerWidth = swipeIndicatorContainer.offsetWidth;
-        const thirdWidth = containerWidth / 3;
-
-        if (currentGroup === 1) {
-            swipeIndicator.style.left = '0';
-        } else if (currentGroup === 2) {
-            swipeIndicator.style.left = `${thirdWidth}px`;
-        } else if (currentGroup === 3) {
-            swipeIndicator.style.left = `${2 * thirdWidth}px`;
-        }
-    }
+    returnButton.addEventListener('click', () => {
+        document.querySelector('.container').style.display = 'none';
+        sliderContainer.style.display = 'none';
+        document.querySelector('.container1').style.display = 'block';
+    });
 
     function updateTimetable() {
         document.querySelector('.tilted-sticker').textContent = `G${currentGroup}`;
-        fillTimetable(currentGroup === 1 ? group1Data : currentGroup === 2 ? group2Data : group3Data);
-        updateArrows();
+        fillTimetable(currentGroup === 1 ? group1Data : currentGroup === 2 ? group2Data : currentGroup === 3 ? group3Data : []);
         updateBackgroundColor();
         highlightCurrentDay();
     }
@@ -146,44 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentGroup === 1) {
             document.documentElement.style.setProperty('--color', '#DEEAF6');
             document.documentElement.style.setProperty('--hover', '#C9D8F0');
-            document.documentElement.style.setProperty('--arrow-bg', 'rgba(222, 234, 246, 0.2)');
-            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(222, 234, 246, 0.7)'); // Darker hover color
         } else if (currentGroup === 2) {
             document.documentElement.style.setProperty('--color', '#FEF2CB');
             document.documentElement.style.setProperty('--hover', '#FDE4A3');
-            document.documentElement.style.setProperty('--arrow-bg', 'rgba(254, 242, 203, 0.2)');
-            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(254, 242, 203, 0.7)'); // Darker hover color
         } else if (currentGroup === 3) {
             document.documentElement.style.setProperty('--color', '#E2EFD9');
             document.documentElement.style.setProperty('--hover', '#CDE8B3');
-            document.documentElement.style.setProperty('--arrow-bg', 'rgba(226, 239, 217, 0.2)');
-            document.documentElement.style.setProperty('--arrow-bg-hover', 'rgba(226, 239, 217, 0.7)'); // Darker hover color
-        }
-    }
-
-    function updateArrows() {
-        if (currentGroup === 1) {
-            leftButton.style.opacity = '0.3';
-            leftButton.classList.add('disabled');
-        } else {
-            leftButton.style.opacity = '1';
-            leftButton.classList.remove('disabled');
-        }
-
-        if (currentGroup === 3) {
-            rightButton.style.opacity = '0.3';
-            rightButton.classList.add('disabled');
-        } else {
-            rightButton.style.opacity = '1';
-            rightButton.classList.remove('disabled');
-        }
-    }
-
-    function updateArrowButtonsVisibility() {
-        if (window.innerWidth > 768) {
-            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'block');
-        } else {
-            document.querySelectorAll('.arrow-button').forEach(button => button.style.display = 'none');
         }
     }
 
@@ -266,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initially hide the timetable and show the group selection
+    // Initially hide the timetable and slider, and show the group selection
     document.querySelector('.container').style.display = 'none';
+    sliderContainer.style.display = 'none';
     document.querySelector('.container1').style.display = 'block';
-    updateArrowButtonsVisibility(); // Ensure arrow buttons are correctly shown/hidden on initial load
     highlightCurrentDay(); // Highlight the current day on initial load
 });
 

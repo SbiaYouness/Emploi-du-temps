@@ -32,7 +32,6 @@
     --hover: #CDE8B3;
 }
 
-
 button {
     background: none;
     border: 2px solid;
@@ -91,6 +90,8 @@ code {
         flex-direction: column;
         align-items: center;
     }
+
+
 }
 
 body {
@@ -134,8 +135,8 @@ body {
 }
 
 .semester-small {
-    top: 12px;
-    left: 12px;
+    top: 10px;
+    left: 10px;
 }
 
 .week-name {
@@ -185,7 +186,7 @@ body.group-3 .tilted-sticker {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 50px;
     z-index: 1;
 }
 
@@ -213,7 +214,6 @@ th, td {
     text-align: center;
     font-size: 1.1em;
     vertical-align: top;
-    height: 80px;
     overflow: hidden;
     min-width: 100px;
 }
@@ -228,6 +228,12 @@ th {
     position: sticky;
     top: 0;
     z-index: 10;
+    height: 20px;
+
+}
+
+td {
+    height: 25px;
 }
 
 th.time-slot, td.time-slot {
@@ -326,56 +332,6 @@ th.time-slot, td.time-slot {
     right: 0;
 }
 
-.arrow-button {
-    position: absolute;
-    top: 0;
-    height: calc(100% - 50px);
-    width: 150px;
-    font-size: 0.1em;
-    background: var(--arrow-bg);
-    border: none;
-    cursor: pointer;
-    color: white;
-    z-index: 100;
-    padding: 0;
-    border-radius: 0;
-    transition: background 0.3s, box-shadow 0.3s;
-    box-shadow: none;
-}
-
-.arrow-button:hover {
-    background: var(--arrow-bg-hover);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.25), 0 0 45px rgba(0, 0, 0, 0.2);
-}
-
-.arrow-button.disabled {
-    background: rgba(127, 134, 138, 0.2);
-    cursor: not-allowed;
-    color: gray;
-    box-shadow: none;
-    pointer-events: none;
-}
-
-.left-button {
-    left: 0px;
-}
-
-.right-button {
-    right: 0px;
-}
-
-.swipe-indicator {
-    display: none;
-    text-align: center;
-    font-size: 0.9em;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding: 5px;
-    animation: blink 1.8s infinite;
-}
-
 .ring-of-fire {
     border: 2px solid red;
     border-radius: 50%;
@@ -393,11 +349,6 @@ th.time-slot, td.time-slot {
     100% {
         box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
     }
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
 }
 
 footer {
@@ -468,47 +419,144 @@ footer {
     min-height: 80px;
 }
 
-/* @media (max-width: 768px) {
-    .merged {
-        font-size: 2em;
-        letter-spacing: 5px;
-        padding-top: 15px;
+/* Slider Container */
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Adjust padding as needed */
+    width: 100%; /* Ensure it takes the full width */
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    margin-top: 20px; /* Space between table and slider */
+}
+
+/* Slider Text */
+.slider-text {
+    color: #64748b;
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: shine 3s infinite;
+    background: linear-gradient(
+        90deg,
+        #64748b 0%,
+        #94a3b8 50%,
+        #64748b 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
     }
 }
 
-@media (max-width: 480px) {
-    .merged {
-        font-size: 1.5em;
-        letter-spacing: 2px;
-        padding-top: 20px;
-    }
-} */
-
-@media (max-width: 768px) {
-
-    .swipe-indicator {
-        display: block;
-    }
-
-    .arrow-button {
-        display: none;
-    }
+/* Slider */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 280px; /* Use 100% width to fit the wrapper */
+    height: 6px;
+    background: var(--color); /* Inherit color from --color variable */
+    border-radius: 3px;
+    outline: none;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
 }
 
-@media (min-width: 769px) {
-    th {
-        height: 20px;
-        padding: 10px;
-    }
-    td {
-        height: 30px;
-    }
+.slider::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(90deg, #22c55e, #3b82f6, #8b5cf6);
+    border-radius: 6px;
+    z-index: -1;
+    opacity: 0.1;
+    animation: glow 2s infinite;
+}
 
-    .swipe-indicator {
-        display: none;
-    }
+@keyframes glow {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0.1; }
+}
 
-    .arrow-button {
-        display: block;
-    }
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color); /* Inherit color from --color variable */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.slider::-webkit-slider-thumb:active {
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color); /* Inherit color from --color variable */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.slider::-moz-range-thumb:active {
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Return Button */
+.semester-small.return-button {
+    background-color: rgba(255, 255, 255, 0.8); /* Subtle background color */
+    color: var(--text-color);
+    border: 1px solid var(--border-color); /* Subtle border */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: normal;
+    padding: 4px 8px; /* Smaller padding for subtle appearance */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.semester-small.return-button:hover {
+    background-color: rgba(255, 255, 255, 1); /* Slightly more prominent on hover */
+    border-color: var(--border-color); /* Subtle border on hover */
+}
+
+.semester-small.return-button:hover {
+    background-color: #ff4757; /* Darker background on hover */
+    border-color: #ff6b6b; /* Lighter border on hover */
 }

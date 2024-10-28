@@ -15,26 +15,9 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="swipe-indicator-container">
-        <div class="swipe-indicator">
-            <span class="arrow left-arrow">&larr;</span>
-            <span class="glissez-text">Glissez</span>
-            <span class="arrow right-arrow">&rarr;</span>
-        </div>
-    </div>
-    <button class="arrow-button left-button">
-        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-    <button class="arrow-button right-button">
-        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
     <div class="container">
         <div id="header-info">
-            <div class="semester-small">seme 3</div>
+            <button class="semester-small return-button">Home</button>
             <div class="group-info">
                 <div class="tilted-sticker">G1</div> 
             </div>
@@ -59,6 +42,10 @@
                 <!-- Table rows will be dynamically added here -->
             </tbody>
         </table>  
+    </div>
+    <div class="slider-container">
+        <div class="slider-text">Glissez les groupes</div>
+        <input type="range" min="0" max="2" value="0" step="1" class="slider" id="slider">
     </div>
     <div class="container1">
         <h2>Sélectionnez votre groupe</h2>
