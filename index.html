@@ -1,67 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emploi du temps - GI2</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/Me2.png" type="image/png">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Emploi du temps - GI2</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="img/Me2.png" type="image/png" />
 
-    <meta property="og:title" content="Emploi du temps - Ecole Supérieure de Technologie de Fès | Génie Informatique S3.">
-    <meta property="og:description" content="Emploi du temps - Ecole Supérieure de Technologie de Fès | Génie Informatique S3.">
-    <meta property="og:image" content="./img/Me2.png">
-    <meta property="og:url" content="https://lamprofony.live">
-    <meta property="og:type" content="website">
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <div class="container">
-        <div id="header-info">
-            <button class="semester-small return-button">Home</button>
-            <div class="group-info">
-                <div class="tilted-sticker">G1</div> 
+        <meta
+            property="og:title"
+            content="Emploi du temps - Ecole Supérieure de Technologie de Fès | Génie Informatique S3."
+        />
+        <meta
+            property="og:description"
+            content="Emploi du temps - Ecole Supérieure de Technologie de Fès | Génie Informatique S3."
+        />
+        <meta property="og:image" content="./img/Me2.png" />
+        <meta property="og:url" content="https://lamprofony.live" />
+        <meta property="og:type" content="website" />
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="header-info">
+                <button class="semester-small return-button">Home</button>
+                <div class="group-info">
+                    <div class="tilted-sticker">G1</div>
+                </div>
+                <div class="week-name">week 7</div>
+                <div class="sub-info">
+                    <div>Salle: B22</div>
+                    <div>AU: 2024-2025</div>
+                </div>
             </div>
-            <div class="week-name">week 7</div>
-            <div class="sub-info">
-                <div>Salle: B22</div>
-                <div>AU: 2024-2025</div>
+            <div class="sticker"></div>
+            <!-- Sticker element -->
+            <div class="container-table">
+                <table id="timetable">
+                    <thead>
+                        <tr>
+                            <th class="time-slot"></th>
+                            <th class="aa">08:30 - 10:20</th>
+                            <th class="aa">10:40 - 12:30</th>
+                            <th class="aa">14:30 - 16:20</th>
+                            <th class="aa">16:40 - 18:30</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table rows will be dynamically added here -->
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="sticker"></div> <!-- Sticker element -->
-        <table id="timetable">
-            <thead>
-                <tr>
-                    <th class="time-slot"></th>
-                    <th class="aa">08:30 - 10:20</th>
-                    <th class="aa">10:40 - 12:30</th>
-                    <th class="aa">14:30 - 16:20</th>
-                    <th class="aa">16:40 - 18:30</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows will be dynamically added here -->
-            </tbody>
-        </table>  
-    </div>
-    <div class="slider-container">
-        <div class="slider-text">Glissez les groupes</div>
-        <input type="range" min="0" max="2" value="0" step="1" class="slider" id="slider">
-    </div>
-    <div class="container1">
-        <h2>Sélectionnez votre groupe</h2>
-        <div class="buttons1">
-            <button id="G1" class="close">G1</button>
-            <button id="G2" class="close">G2</button>
-            <button id="G3" class="close">G3</button>
+        <div class="slider-container">
+            <div class="slider-text">Glissez les groupes</div>
+            <input
+                type="range"
+                min="0"
+                max="2"
+                value="0"
+                step="1"
+                class="slider"
+                id="slider"
+            />
         </div>
-    </div>
-    <footer>
-        <a href="https://lamprofony.live">
-            <img src="img/Me2.png" alt="Logo" class="footer-logo">
-        </a>        
-        <div class="footer-content">
-            <p>&copy; 2024 Lamprofony. All rights reserved.</p>
+        <div class="container1">
+            <h2>Sélectionnez votre groupe</h2>
+            <div class="buttons1">
+                <button id="G1" class="close">G1</button>
+                <button id="G2" class="close">G2</button>
+                <button id="G3" class="close">G3</button>
+            </div>
         </div>
-    </footer>
-</body>
+        <footer>
+            <a href="https://lamprofony.live">
+                <img src="img/Me2.png" alt="Logo" class="footer-logo" />
+            </a>
+            <div class="footer-content">
+                <p>&copy; 2024 Lamprofony. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
 </html>
