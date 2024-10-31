@@ -293,13 +293,20 @@ body.group-3 .tilted-sticker {
     max-width: 1000px;
     overflow: auto;
 }
+.container-table::-webkit-scrollbar {
+    height: 13px;
+}
+
 @media (max-width: 400px) {
     .container-table {
         width: 95vw !important;
     }
 }
-.container-table::-webkit-scrollbar {
-    /* height: 13px; */
+
+@media (pointer: coarse) {
+    .container-table::-webkit-scrollbar {
+        height: 20px !important;
+    }
 }
 
 table {

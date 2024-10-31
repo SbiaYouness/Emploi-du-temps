@@ -2,9 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.querySelector(".container");
     const groupButtons = document.querySelectorAll(".buttons1 button");
     const slider = document.getElementById("slider");
+
     const sliderContainer = document.querySelector(".slider-container");
     const returnButton = document.querySelector(".return-button");
-    let currentGroup = 1;
+    let currentGroup = localStorage.currentGroup
+        ? localStorage.currentGroup
+        : 1;
 
     function updateSlider(value) {
         slider.value = value; // Update the slider value
@@ -44,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function updateTimetable() {
+        localStorage.setItem("currentGroup", currentGroup);
         document.querySelector(
             ".tilted-sticker"
         ).textContent = `G${currentGroup}`;
@@ -163,8 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const today = new Date().getDay();
         const todayName = daysOfWeek[today];
 
-        console.log(todayName);
-
         const rows = document.querySelectorAll("#timetable tbody tr");
         rows.forEach((row) => {
             const dayCell = row.querySelector(".time-slot");
@@ -194,11 +196,16 @@ document.addEventListener("DOMContentLoaded", () => {
     addClassToCourses("OSI & TCP/IP (1-7)", "exam");
     // addClassToCourses("TP Tech", "exam");
 
-    // Initially hide the timetable and slider, and show the group selection
-    document.querySelector(".container").style.display = "none";
-    sliderContainer.style.display = "none";
-    document.querySelector(".container1").style.display = "block";
     highlightCurrentDay(); // Highlight the current day on initial load
+
+    // Initialize visibility based on `currentGroup`
+    if (localStorage.getItem("currentGroup")) {
+        groupButtons[currentGroup - 1].click();
+    } else {
+        document.querySelector(".container").style.display = "none";
+        document.querySelector(".container1").style.display = "block";
+        sliderContainer.style.display = "none";
+    }
 });
 
 // Define timetable data for groups
