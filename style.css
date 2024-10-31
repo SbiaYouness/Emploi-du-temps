@@ -18,14 +18,15 @@
 
 body {
     font-family: "Roboto", "Arial", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    height: 100dvh;
     margin: 0;
     background-color: var(--background-color);
     color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
 }
 
 ::-webkit-scrollbar {
@@ -185,7 +186,7 @@ code {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     position: relative;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 5em;
     white-space: nowrap;
 }
 
@@ -296,6 +297,18 @@ body.group-3 .tilted-sticker {
     height: 13px;
 }
 
+@media (max-width: 400px) {
+    .container-table {
+        width: 95vw !important;
+    }
+}
+
+@media (pointer: coarse) {
+    .container-table::-webkit-scrollbar {
+        height: 20px !important;
+    }
+}
+
 table {
     min-width: 1000px;
     border-collapse: separate;
@@ -342,9 +355,6 @@ td.time-slot {
 .time-slot {
     font-weight: bold;
     background-color: #f8f9fa;
-    /* position: sticky;
-    left: 0;
-    z-index: 5; */
 }
 
 .course {
@@ -442,93 +452,27 @@ td.time-slot {
     right: 0;
 }
 
-.ring-of-fire {
-    border: 2px solid red;
-    border-radius: 50%;
-    box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
-    animation: pulse 1.5s infinite;
+.ring-of-fire td:not(.exam) {
+    border-block: 2px solid #4297fa;
+    animation: pulse 2s linear infinite;
 }
 
+.ring-of-fire td:is(.color-empty:not(.exam), .time-slot) {
+    background-color: #f1f9ff;
+}
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+    0%,
+    100% {
+        border-block-color: #4297fa;
     }
     50% {
-        box-shadow: 0 0 20px red, 0 0 40px red, 0 0 60px red;
-    }
-    100% {
-        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+        border-block-color: #4298fa67;
     }
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
     width: 100%;
     background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-    font-size: 14px;
-    color: #555;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    z-index: 200;
-}
-
-.footer-logo {
-    height: 17px;
-}
-
-.recently-added {
-    color: rgb(231, 116, 116);
-    position: relative;
-}
-
-.recently-added::after {
-    content: "TEMP";
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    background-color: rgba(255, 255, 0, 0.316);
-    color: transparent;
-    padding: 2px 5px;
-    font-size: 10px;
-    font-weight: bold;
-    border-radius: 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 0 0 black;
-}
-
-.last-session {
-    position: relative;
-}
-
-.last-label {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: rgba(255, 255, 255, 0.8);
-    padding: 2px 5px;
-    font-size: 10px;
-    font-weight: normal;
-    border-radius: 3px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.course,
-.instructor {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.early-start,
-.early-finish {
-    position: relative;
-    padding-top: 15px;
-    min-height: 80px;
 }
 
 /* Slider Container */
@@ -538,17 +482,8 @@ footer {
     justify-content: center;
     align-items: center;
     padding: 20px; /* Adjust padding as needed */
-    width: 100%; /* Ensure it takes the full width */
-    background-color: rgba(
-        255,
-        255,
-        255,
-        0.9
-    ); /* Semi-transparent background */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
-    margin-top: 20px; /* Space between table and slider  */
-    margin-bottom: 60px;
+    background-color: #ffff;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  */
 }
 
 /* Slider Text */
@@ -651,6 +586,71 @@ footer {
 .slider::-moz-range-thumb:active {
     transform: scale(1.15);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-logo {
+    height: 17px;
+}
+
+.recently-added {
+    color: rgb(231, 116, 116);
+    position: relative;
+}
+
+.recently-added::after {
+    content: "TEMP";
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: rgba(255, 255, 0, 0.316);
+    color: transparent;
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 0 black;
+}
+
+.last-session {
+    position: relative;
+}
+
+.last-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: normal;
+    border-radius: 3px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.course,
+.instructor {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.early-start,
+.early-finish {
+    position: relative;
+    padding-top: 15px;
+    min-height: 80px;
 }
 
 /* Return Button */
