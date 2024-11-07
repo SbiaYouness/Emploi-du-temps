@@ -453,20 +453,45 @@ td.time-slot {
 }
 
 .ring-of-fire td:not(.exam) {
-    border-block: 2px solid #4297fa;
-    animation: pulse 2s linear infinite;
+    position: relative;
+    overflow: hidden; /* Ensure the pseudo-elements are contained within the cell */
+    color: white; /* Text color for dark mode */
+    background-color: black; /* Background color for dark mode */
+}
+
+.ring-of-fire td:not(.exam)::before,
+.ring-of-fire td:not(.exam)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px; /* Height of the border */
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.8) 75%, transparent 75%);
+    background-size: 200% 100%;
+    animation: glowing-border 4s linear infinite; /* Slower animation */
+}
+
+.ring-of-fire td:not(.exam)::before {
+    top: 0;
+    animation-delay: 0s; /* No delay for the top border */
+}
+
+.ring-of-fire td:not(.exam)::after {
+    bottom: 0;
+    animation-delay: 2s; /* Delay for the bottom border to make it out of sync */
 }
 
 .ring-of-fire td:is(.color-empty:not(.exam), .time-slot) {
-    background-color: #f1f9ff;
+    background-color: black; /* Background color for dark mode */
+    color: white; /* Text color for dark mode */
 }
-@keyframes pulse {
-    0%,
-    100% {
-        border-block-color: #4297fa;
+
+@keyframes glowing-border {
+    0% {
+        background-position: 200% 0%;
     }
-    50% {
-        border-block-color: #4298fa67;
+    100% {
+        background-position: -200% 0%;
     }
 }
 

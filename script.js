@@ -192,8 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Example usage: Add "exam" class to OSI & TCP/IP courses
-    addClassToCourses("OSI & TCP/IP (1-7)", "exam");
     // addClassToCourses("TP Tech", "exam");
 
     highlightCurrentDay(); // Highlight the current day on initial load
@@ -276,7 +274,7 @@ const group1Data = [
                 className: "color-empty",
             },
             {
-                course: "OSI & TCP/IP (1-7)",
+                course: "Commutation et Routage (8-15)",
                 instructor: "Khartoch (14H)",
                 className: "color-empty",
             },
@@ -374,7 +372,7 @@ const group2Data = [
                 className: "color-empty",
             },
             {
-                course: "OSI & TCP/IP (1-7)",
+                course: "Commutation et Routage (8-15)",
                 instructor: "Khartoch (14H)",
                 className: "color-empty",
             },
@@ -469,7 +467,7 @@ const group3Data = [
                 className: "color-empty",
             },
             {
-                course: "OSI & TCP/IP (1-7)",
+                course: "Commutation et Routage (8-15)",
                 instructor: "Khartoch (14H)",
                 className: "color-empty",
             },
