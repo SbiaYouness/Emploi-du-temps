@@ -457,6 +457,8 @@ td.time-slot {
     overflow: hidden; /* Ensure the pseudo-elements are contained within the cell */
     color: white; /* Text color for dark mode */
     background-color: black; /* Background color for dark mode */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Shadow to lift the element off the page */
 }
 
 .ring-of-fire td:not(.exam)::before,
@@ -466,19 +468,17 @@ td.time-slot {
     left: 0;
     right: 0;
     height: 2px; /* Height of the border */
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.8) 75%, transparent 75%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
     background-size: 200% 100%;
-    animation: glowing-border 4s linear infinite; /* Slower animation */
+    animation: glowing-border 6s linear infinite; /* Slower and more subtle animation */
 }
 
 .ring-of-fire td:not(.exam)::before {
     top: 0;
-    animation-delay: 0s; /* No delay for the top border */
 }
 
 .ring-of-fire td:not(.exam)::after {
     bottom: 0;
-    animation-delay: 2s; /* Delay for the bottom border to make it out of sync */
 }
 
 .ring-of-fire td:is(.color-empty:not(.exam), .time-slot) {
